@@ -89,16 +89,12 @@ Also check `env.example`
   - **POST** `/orders` - Post a new order
       - Request body:
           ```json
-          {
-            "ID": 1,
-            "CreatedAt": "2024-09-18T12:03:36.941853+03:00",
-            "UpdatedAt": "2024-09-18T12:03:36.941853+03:00",
-            "DeletedAt": null,
-            "productId": 1,
-            "quantity": 4,
-            "userId": 1,
-            "total": 5
-          }
+        {
+            "ProductID": 1,
+            "Quantity": 4,
+            "Total" : 5.0,
+            "UserId" : 1
+        }
           ```
 
 ## Authentication and Authorization
