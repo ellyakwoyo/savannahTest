@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    env:
+      DB_HOST: ${{ secrets.DB_HOST }}
+      DB_PORT: ${{ secrets.DB_PORT }}
+      DB_USER: ${{ secrets.DB_USER }}
+      DB_PASSWORD: ${{ secrets.DB_PASSWORD }}
+      DB_NAME: ${{ secrets.DB_NAME }}
+      CLIENT_ID: ${{ secrets.CLIENT_ID }}'
+      CLIENT_SECRET: ${{ secrets.CLIENT_SECRET }}
+      REDIRECT_URI: ${{ secrets.REDIRECT_URI }}
+      SMS_SANDBOX_API_KEY: ${{ secrets.SMS_SANDBOX_API_KEY }}
+      SMS_SANDBOX_API_USERNAME: ${{ secrets.SMS_SANDBOX_API_USERNAME }}
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up savannahTest
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.22'
+
+      - name: Test
+        working-directory: ./savannahTest
+        run: make test
+
+      - name: Coverage
+        working-directory: ./savannahTest
+        run: make coverage
+
+      - name: Clean
+        working-directory: ./savannahTest
+        run: make clean
