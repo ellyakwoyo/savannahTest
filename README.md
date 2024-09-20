@@ -1,6 +1,6 @@
 # Golang Project
 
-This is a simple golang service that has followed SOLID principle of API development with automated unit tests. The project manages customers and orders, authentication based on OpenID Connect, and SMS notifications for placing orders. It also has a set of strict and comprehensive tests for every unit, CI/CD pipeline configuration and step-by-step deployment guide.
+This is a simple golang service that has followed SOLID principle of API development with automated unit tests. The project manages customers and orders, authentication based on OpenID Connect, and SMS notifications for placing orders. It also has a set of strict and comprehensive tests for every unit, CI/CD pipeline configuration and step-by-step deployment guide. On login, you will see JSON for loggedin user credentials and session token which should be needed in frontend.
 ## Table of Contents
 
 - [Features](#features)
