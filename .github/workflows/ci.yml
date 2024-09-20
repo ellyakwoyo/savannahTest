@@ -33,9 +33,3 @@ jobs:
 
       - name: Test
         run: make test
-
-      - name: Coverage
-        run: make coverage
-
-      - name: Clean
-        run: make clean
