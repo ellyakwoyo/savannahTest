@@ -27,7 +27,6 @@ jobs:
           export_default_credentials: true
 
       - name: Create .env file
-        working-directory: ./savannahTest
         run: |
           cat <<EOF > .env
           DB_HOST='${{ secrets.DB_HOST }}'
@@ -43,10 +42,8 @@ jobs:
           EOF
 
       - name: Build
-        working-directory: ./savannahTest
         run: make build
 
       - name: Deploy to App Engine
-        working-directory: ./savannahTest
         run: |
           gcloud app deploy --quiet

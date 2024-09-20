@@ -32,13 +32,10 @@ jobs:
           go-version: '1.22'
 
       - name: Test
-        working-directory: ./savannahTest
         run: make test
 
       - name: Coverage
-        working-directory: ./savannahTest
         run: make coverage
 
       - name: Clean
-        working-directory: ./savannahTest
         run: make clean
