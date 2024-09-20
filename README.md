@@ -48,7 +48,7 @@ This project includes the following features:
 
 ## Configuration
 
-Ensure you have a `.env` file in the `savannahTst` having the following information:
+Ensure you have a `.env` file in the `savannahTest` having the following information:
 ```env
 DB_HOST = your_db_host
 DB_USER = your_db_user
