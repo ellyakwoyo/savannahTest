@@ -1,4 +1,3 @@
-basePath: /app/v1
 definitions:
   models.Customer:
     type: object
@@ -10,12 +9,9 @@ info:
   contact:
     email: support@swagger.io
     name: API Support
-    url: http://www.swagger.io/support
   description: This is an example of a Golang project with Swagger integration.
   license:
     name: Apache 2.0
-    url: http://www.apache.org/licenses/LICENSE-2.0.html
-  termsOfService: http://swagger.io/terms/
   title: SavannahTest API
   version: "1.0"
 paths:
@@ -32,30 +28,7 @@ paths:
       summary: Show Home page with login option
       tags:
       - Authentication
-  /auth/callback:
-    get:
-      description: Handles the callback from Google after authentication. Creates
-        a session token and sets it in a cookie.
-      produces:
-      - application/json
-      responses:
-        "200":
-          description: Authentication success with user and session token
-          schema:
-            additionalProperties: true
-            type: object
-        "400":
-          description: Authentication failed
-          schema:
-            type: string
-        "500":
-          description: Session generation failed
-          schema:
-            type: string
-      summary: Google OAuth2 callback handler
-      tags:
-      - Authentication
-  /customers:
+  /app/v1/customers:
     get:
       description: Fetches all customers from the database.
       produces:
@@ -91,7 +64,8 @@ paths:
         "200":
           description: Customer created successfully
           schema:
-            type: body
+            additionalProperties: true
+            type: object
         "400":
           description: Invalid request
           schema:
@@ -105,7 +79,7 @@ paths:
       summary: Create a new customer
       tags:
       - Customer
-  /customers/{id}:
+  /app/v1/customers/{id}:
     delete:
       description: Deletes a customer by ID.
       parameters:
@@ -191,36 +165,17 @@ paths:
       summary: Update an existing customer
       tags:
       - Customer
-  /login:
+  /app/v1/orders:
     get:
-      description: Redirects the user to Google's OAuth2 login page to begin authentication.
-      parameters:
-      - default: google
-        description: OAuth provider
-        in: query
-        name: provider
-        required: true
-        type: string
-      produces:
-      - application/json
-      responses:
-        "302":
-          description: Redirects to Google login page
-      summary: Start Google OAuth2 login
-      tags:
-      - Authentication
-  /orders:
-    get:
-      description: Retrieves all orders in the system
+      description: Retrieves all orders from the system
       produces:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Orders fetched successfully
           schema:
-            items:
-              $ref: '#/definitions/models.Order'
-            type: array
+            additionalProperties: true
+            type: object
         "500":
           description: Internal Server Error
           schema:
@@ -232,7 +187,7 @@ paths:
     post:
       consumes:
       - application/json
-      description: Creates a new order in the system
+      description: Creates a new order in the system with the provided data
       parameters:
       - description: Order Data
         in: body
@@ -244,9 +199,10 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Order created successfully
           schema:
-            $ref: '#/definitions/models.Order'
+            additionalProperties: true
+            type: object
         "400":
           description: Invalid request
           schema:
@@ -260,9 +216,9 @@ paths:
       summary: Create a new order
       tags:
       - Orders
-  /orders/{id}:
+  /app/v1/orders/{id}:
     delete:
-      description: Deletes an order from the system by ID
+      description: Deletes an order from the system by its unique ID
       parameters:
       - description: Order ID
         in: path
@@ -271,12 +227,12 @@ paths:
         type: integer
       responses:
         "200":
-          description: Order deleted
+          description: Order deleted successfully
           schema:
             additionalProperties: true
             type: object
         "400":
-          description: Invalid ID
+          description: Invalid order ID
           schema:
             additionalProperties: true
             type: object
@@ -289,7 +245,7 @@ paths:
       tags:
       - Orders
     get:
-      description: Retrieves an order by its ID
+      description: Retrieves an order by its unique ID
       parameters:
       - description: Order ID
         in: path
@@ -300,11 +256,12 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Order fetched successfully
           schema:
-            $ref: '#/definitions/models.Order'
+            additionalProperties: true
+            type: object
         "400":
-          description: Invalid ID
+          description: Invalid order ID
           schema:
             additionalProperties: true
             type: object
@@ -319,14 +276,14 @@ paths:
     put:
       consumes:
       - application/json
-      description: Updates an order's details by ID
+      description: Updates an existing order by ID with new data
       parameters:
       - description: Order ID
         in: path
         name: id
         required: true
         type: integer
-      - description: Updated Order Data
+      - description: Updated order data
         in: body
         name: order
         required: true
@@ -336,9 +293,10 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: Order updated successfully
           schema:
-            $ref: '#/definitions/models.Order'
+            additionalProperties: true
+            type: object
         "400":
           description: Invalid ID or request
           schema:
@@ -357,7 +315,7 @@ paths:
       summary: Update an order
       tags:
       - Orders
-  /products:
+  /app/v1/products:
     get:
       description: Fetches all products from the database.
       produces:
@@ -408,7 +366,7 @@ paths:
       summary: Create a new product
       tags:
       - Product
-  /products/{id}:
+  /app/v1/products/{id}:
     delete:
       description: Deletes a product by ID.
       parameters:
@@ -494,4 +452,45 @@ paths:
       summary: Update an existing product
       tags:
       - Product
+  /auth/callback:
+    get:
+      description: Handles the callback from Google after authentication. Creates
+        a session token and sets it in a cookie.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Authentication success with user and session token
+          schema:
+            additionalProperties: true
+            type: object
+        "400":
+          description: Authentication failed
+          schema:
+            type: string
+        "500":
+          description: Session generation failed
+          schema:
+            type: string
+      summary: Google OAuth2 callback handler
+      tags:
+      - Authentication
+  /login:
+    get:
+      description: Redirects the user to Google's OAuth2 login page to begin authentication.
+      parameters:
+      - default: google
+        description: OAuth provider
+        in: query
+        name: provider
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "302":
+          description: Redirects to Google login page
+      summary: Start Google OAuth2 login
+      tags:
+      - Authentication
 swagger: "2.0"

@@ -26,10 +26,10 @@ func NewCustomerHandler(customerService services.CustomerService) *CustomerHandl
 // @Accept json
 // @Produce json
 // @Param customer body models.Customer true "Customer data"
-// @Success 200 body models.Customer "Customer created successfully"
+// @Success 200 {object} map[string]interface{} "Customer created successfully"
 // @Failure 400 {object} map[string]interface{} "Invalid request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /customers [post]
+// @Router /app/v1/customers [post]
 func (h *CustomerHandler) CreateCustomer(c echo.Context) error {
 	customer := new(models.Customer)
 	if err := c.Bind(customer); err != nil {
@@ -60,7 +60,7 @@ func (h *CustomerHandler) CreateCustomer(c echo.Context) error {
 // @Produce json
 // @Success 200 {object} map[string]interface{} "Customers fetched successfully"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /customers [get]
+// @Router /app/v1/customers [get]
 func (h *CustomerHandler) GetAllCustomers(c echo.Context) error {
 	customers, err := h.customerService.GetAllCustomers()
 	if err != nil {
@@ -84,7 +84,7 @@ func (h *CustomerHandler) GetAllCustomers(c echo.Context) error {
 // @Param id path int true "Customer ID"
 // @Success 200 {object} map[string]interface{} "Customer fetched successfully"
 // @Failure 404 {object} map[string]interface{} "Customer not found"
-// @Router /customers/{id} [get]
+// @Router /app/v1/customers/{id} [get]
 func (h *CustomerHandler) GetCustomerByID(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	customer, err := h.customerService.GetCustomerByID(id)
@@ -112,7 +112,7 @@ func (h *CustomerHandler) GetCustomerByID(c echo.Context) error {
 // @Success 200 {object} map[string]interface{} "Customer updated successfully"
 // @Failure 400 {object} map[string]interface{} "Invalid request"
 // @Failure 500 {object} map[string]interface{} "Internal server error"
-// @Router /customers/{id} [put]
+// @Router /app/v1/customers/{id} [put]
 func (h *CustomerHandler) UpdateCustomer(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 	customer := new(models.Customer)
@@ -145,7 +145,7 @@ func (h *CustomerHandler) UpdateCustomer(c echo.Context) error {
 // @Param id path int true "Customer ID"
 // @Success 200 {object} map[string]interface{} "Customer deleted successfully"
 // @Failure 404 {object} map[string]interface{} "Customer not found"
-// @Router /customers/{id} [delete]
+// @Router /app/v1/customers/{id} [delete]
 func (h *CustomerHandler) DeleteCustomer(c echo.Context) error {
 	id, _ := strconv.Atoi(c.Param("id"))
 

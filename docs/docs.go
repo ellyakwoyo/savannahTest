@@ -9,15 +9,12 @@ const docTemplate = `{
     "info": {
         "description": "{{escape .Description}}",
         "title": "{{.Title}}",
-        "termsOfService": "http://swagger.io/terms/",
         "contact": {
             "name": "API Support",
-            "url": "http://www.swagger.io/support",
             "email": "support@swagger.io"
         },
         "license": {
-            "name": "Apache 2.0",
-            "url": "http://www.apache.org/licenses/LICENSE-2.0.html"
+            "name": "Apache 2.0"
         },
         "version": "{{.Version}}"
     },
@@ -44,40 +41,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/auth/callback": {
-            "get": {
-                "description": "Handles the callback from Google after authentication. Creates a session token and sets it in a cookie.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Google OAuth2 callback handler",
-                "responses": {
-                    "200": {
-                        "description": "Authentication success with user and session token",
-                        "schema": {
-                            "type": "object",
-                            "additionalProperties": true
-                        }
-                    },
-                    "400": {
-                        "description": "Authentication failed",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Session generation failed",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
-        "/customers": {
+        "/app/v1/customers": {
             "get": {
                 "description": "Fetches all customers from the database.",
                 "produces": [
@@ -131,7 +95,8 @@ const docTemplate = `{
                     "200": {
                         "description": "Customer created successfully",
                         "schema": {
-                            "type": "body"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
@@ -151,7 +116,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/customers/{id}": {
+        "/app/v1/customers/{id}": {
             "get": {
                 "description": "Fetches a single customer using their ID.",
                 "produces": [
@@ -277,36 +242,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/login": {
+        "/app/v1/orders": {
             "get": {
-                "description": "Redirects the user to Google's OAuth2 login page to begin authentication.",
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "Authentication"
-                ],
-                "summary": "Start Google OAuth2 login",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "default": "google",
-                        "description": "OAuth provider",
-                        "name": "provider",
-                        "in": "query",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "302": {
-                        "description": "Redirects to Google login page"
-                    }
-                }
-            }
-        },
-        "/orders": {
-            "get": {
-                "description": "Retrieves all orders in the system",
+                "description": "Retrieves all orders from the system",
                 "produces": [
                     "application/json"
                 ],
@@ -316,12 +254,10 @@ const docTemplate = `{
                 "summary": "Get all orders",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Orders fetched successfully",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/models.Order"
-                            }
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "500": {
@@ -334,7 +270,7 @@ const docTemplate = `{
                 }
             },
             "post": {
-                "description": "Creates a new order in the system",
+                "description": "Creates a new order in the system with the provided data",
                 "consumes": [
                     "application/json"
                 ],
@@ -358,9 +294,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Order created successfully",
                         "schema": {
-                            "$ref": "#/definitions/models.Order"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
@@ -380,9 +317,9 @@ const docTemplate = `{
                 }
             }
         },
-        "/orders/{id}": {
+        "/app/v1/orders/{id}": {
             "get": {
-                "description": "Retrieves an order by its ID",
+                "description": "Retrieves an order by its unique ID",
                 "produces": [
                     "application/json"
                 ],
@@ -401,13 +338,14 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Order fetched successfully",
                         "schema": {
-                            "$ref": "#/definitions/models.Order"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Invalid order ID",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -423,7 +361,7 @@ const docTemplate = `{
                 }
             },
             "put": {
-                "description": "Updates an order's details by ID",
+                "description": "Updates an existing order by ID with new data",
                 "consumes": [
                     "application/json"
                 ],
@@ -443,7 +381,7 @@ const docTemplate = `{
                         "required": true
                     },
                     {
-                        "description": "Updated Order Data",
+                        "description": "Updated order data",
                         "name": "order",
                         "in": "body",
                         "required": true,
@@ -454,9 +392,10 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Order updated successfully",
                         "schema": {
-                            "$ref": "#/definitions/models.Order"
+                            "type": "object",
+                            "additionalProperties": true
                         }
                     },
                     "400": {
@@ -483,7 +422,7 @@ const docTemplate = `{
                 }
             },
             "delete": {
-                "description": "Deletes an order from the system by ID",
+                "description": "Deletes an order from the system by its unique ID",
                 "tags": [
                     "Orders"
                 ],
@@ -499,14 +438,14 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "Order deleted",
+                        "description": "Order deleted successfully",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
                         }
                     },
                     "400": {
-                        "description": "Invalid ID",
+                        "description": "Invalid order ID",
                         "schema": {
                             "type": "object",
                             "additionalProperties": true
@@ -522,7 +461,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/products": {
+        "/app/v1/products": {
             "get": {
                 "description": "Fetches all products from the database.",
                 "produces": [
@@ -597,7 +536,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/products/{id}": {
+        "/app/v1/products/{id}": {
             "get": {
                 "description": "Fetches a single product using its ID.",
                 "produces": [
@@ -722,6 +661,66 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/auth/callback": {
+            "get": {
+                "description": "Handles the callback from Google after authentication. Creates a session token and sets it in a cookie.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Google OAuth2 callback handler",
+                "responses": {
+                    "200": {
+                        "description": "Authentication success with user and session token",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "400": {
+                        "description": "Authentication failed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Session generation failed",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "get": {
+                "description": "Redirects the user to Google's OAuth2 login page to begin authentication.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Start Google OAuth2 login",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "default": "google",
+                        "description": "OAuth provider",
+                        "name": "provider",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "302": {
+                        "description": "Redirects to Google login page"
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -741,7 +740,7 @@ const docTemplate = `{
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "",
-	BasePath:         "/app/v1",
+	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "SavannahTest API",
 	Description:      "This is an example of a Golang project with Swagger integration.",
